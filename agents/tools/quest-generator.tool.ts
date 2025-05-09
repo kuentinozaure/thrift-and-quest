@@ -18,6 +18,10 @@ const TOOL_PROMPT = `
 `;
 const TOOL_NAME = "quest-generator";
 
+/**
+ * This function generates a thrift quest
+ * @returns { Promise<Quest | null> }
+ */
 export async function questGenerator(): Promise<Quest | null> {
     const groq = new Groq({
         apiKey: process.env.GROQ_API_KEY

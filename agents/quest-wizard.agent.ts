@@ -44,17 +44,28 @@ function generateQuestWizardPrompt(
     `;
 }
 
+/**
+ * This function represent an AI agent that generates quests and analyze it according the user persona
+ * The agent gonna 'think' about what the tool generating and iterate if necessary
+ * @param { UserThriftPersona } userThriftPersona - The user thrift preferences
+ * @returns { Promise<Quest> } - The generated quest 'hand picked' by the agent
+ */
 export async function QuestWizardAgent(
   userThriftPersona: UserThriftPersona,
 ): Promise<Quest> {
+  // Variable used to track the approval status of the quest
+  let questApproved = false;
+  let selectedQuest: Quest = { goal: '', status: QuestGoal.NOT_STARTED };
+
+  // Instantiate the llm provider
   const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY,
   });
-  let questApproved = false;
-  let selectedQuest: Quest = { goal: '', status: QuestGoal.NOT_STARTED };
-   const previousAgentMessage: ChatCompletionMessageParam[] = [];
 
-  let index = 0;
+  // Keep track of the previous agent messages and passing it to the llm provider
+  const previousAgentMessage: ChatCompletionMessageParam[] = [];
+
+  // While agent not approved the current quest
   while (questApproved === false) {
     let quest = await questGenerator();
     const prompt = generateQuestWizardPrompt(userThriftPersona, quest);
