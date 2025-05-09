@@ -1,6 +1,6 @@
 import { BASE_VISION_MODEL } from 'constants/model.constant';
 import Groq from 'groq-sdk';
-import { Information } from 'types/story';
+import { Information } from 'types/information';
 
 const TOOL_PROMPT = `
     ----- ROLE -----
