@@ -8,7 +8,6 @@ export class QuestController {
 
     @Get()
     public async getQuest(): Promise<Quest> {
-        console.log('Getting quest...');
         return await this.questService.getQuest();
     }
 }
